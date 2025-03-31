@@ -34,12 +34,23 @@ app.use(
 connectDb();
 
 // user
-
+app.get("/", () => {
+  res.status(200).json({
+    success: true,
+    message: "Server Connected.",
+    apis: {
+      products: "https://supermarket-e9sk.onrender.com/products",
+      categories: "https://supermarket-e9sk.onrender.com/categories",
+      productsByCategory: "https://supermarket-e9sk.onrender.com/category/1",
+      productsById:
+        "https://supermarket-e9sk.onrender.com/products/67ead29624c22d48e1bff5eb",
+    },
+  });
+});
 app.get("/categories", fetchAllCategories);
 app.get("/products", fetchAllProducts);
 app.get("/category/:category_id", fetchProductsByCategory);
 app.get("/products/:product_id", fetchProductById);
-
 
 // admin
 app.post("/insertCategories", insertCategories);
