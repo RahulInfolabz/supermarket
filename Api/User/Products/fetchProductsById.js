@@ -25,6 +25,7 @@ async function fetchProductById(req, res) {
     // Query to find the product by _id
     const product = await collection.findOne({
       _id: new ObjectId(product_id),
+      status: "Active",
     });
 
     console.log("Product Found:", product);

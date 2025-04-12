@@ -37,6 +37,7 @@ async function insertProduct(req, res) {
       tags,
       rating,
       reviews_count,
+      status: "Active",
     });
 
     if (insert.acknowledged) {

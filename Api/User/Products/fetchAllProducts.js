@@ -4,7 +4,7 @@ let fetchAllProducts = async (req, res) => {
   try {
     const database = await connectDb();
     const collection = database.collection("products");
-    const products = await collection.find().toArray();
+    const products = await collection.find({status:"Active"}).toArray();
 
     if (products.length > 0) {
       res.status(200).json({

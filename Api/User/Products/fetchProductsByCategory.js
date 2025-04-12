@@ -13,6 +13,7 @@ async function fetchProductsByCategory(req, res) {
     const products = await collection
       .find({
         category_id: numericCategoryId, // Now category_id is a number
+        status: "Active",
       })
       .toArray();
 
