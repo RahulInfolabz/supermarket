@@ -8,11 +8,10 @@ async function insertCategory(req, res) {
     // get collection
     const collection = db.collection("categories");
 
-    const { category_id, name, image, description } = req.body;
+    const { name, image, description } = req.body;
 
     // write here query
     const insert = await collection.insertOne({
-      category_id,
       name,
       image,
       description,

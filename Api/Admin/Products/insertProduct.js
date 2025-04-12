@@ -1,16 +1,14 @@
+const { ObjectId } = require("mongodb");
 const connectDb = require("../../../Db/connectDb");
 
 async function insertProduct(req, res) {
   try {
-    // get database
     const db = await connectDb();
-
-    // get collection
     const collection = db.collection("products");
 
     const {
       name,
-      category_id,
+      category_id, // Expecting hexadecimal string from request
       description,
       brand,
       price,
@@ -21,44 +19,66 @@ async function insertProduct(req, res) {
       tags,
       rating,
       reviews_count,
+      nutritional_info,
+      dietary_preferences,
+      shelf_life,
+      batch_number,
+      storage_instructions,
+      organic,
+      discount,
+      minimum_order_quantity,
     } = req.body;
 
-    // write here query
-    const insert = await collection.insertOne({
+    const productDocument = {
       name,
-      category_id,
+      category_id: ObjectId.createFromHexString(category_id),
       description,
       brand,
-      price,
+      price: Number(price),
       currency,
-      quantity_available,
+      quantity_available: Number(quantity_available),
       unit,
       image,
       tags,
-      rating,
-      reviews_count,
+      rating: Number(rating),
+      reviews_count: Number(reviews_count),
+      nutritional_info,
+      dietary_preferences,
+      shelf_life,
+      batch_number,
+      storage_instructions,
+      organic: Boolean(organic),
+      discount: Number(discount) || 0,
+      minimum_order_quantity: Number(minimum_order_quantity) || 1,
       status: "Active",
-    });
+      created_at: new Date(),
+    };
 
-    if (insert.acknowledged) {
+    const insertResult = await collection.insertOne(productDocument);
+
+    if (insertResult.acknowledged) {
       res.status(201).json({
         success: true,
-        message: "Product inserted successfully.",
-        data: insert.ops[0], // Send back the inserted product data
+        message: "Product inserted successfully",
+        data: {
+          ...productDocument,
+          _id: insertResult.insertedId,
+          category_id: category_id, // Return original string for reference
+        },
       });
     } else {
       res.status(400).json({
         success: false,
-        error: "Failed to insert product.",
-        message:
-          "Data insertion was unsuccessful. Please check the request and try again.",
+        error: "Insert operation failed",
+        message: "Product could not be added to the database",
       });
     }
-  } catch (e) {
+  } catch (error) {
+    console.error("Error inserting product:", error);
     res.status(500).json({
       success: false,
-      error: "An unexpected error occurred on the server.",
-      message: "Internal Server Error. Please try again later.",
+      error: "Internal server error",
+      message: error.message,
     });
   }
 }

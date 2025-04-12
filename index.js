@@ -5,7 +5,6 @@ const fetchAllCategories = require("./Api/User/Categories/fetchAllCategories");
 const fetchAllProducts = require("./Api/User/Products/fetchAllProducts");
 const insertCategories = require("./Api/Admin/Categories/insertCategories");
 const insertProduct = require("./Api/Admin/Products/insertProduct");
-const insertProducts = require("./Api/Admin/Products/insertProducts");
 const insertCategory = require("./Api/Admin/Categories/insertCategory");
 const fetchProductsByCategory = require("./Api/User/Products/fetchProductsByCategory");
 const fetchProductById = require("./Api/User/Products/fetchProductsById");
@@ -54,8 +53,7 @@ app.get("/products/:product_id", fetchProductById);
 
 // admin
 app.post("/insertCategories", insertCategories);
-app.post("/insertProducts", insertProducts);
-app.post("insertProduct", insertProduct);
+app.post("/insertProduct", insertProduct);
 app.post("/insertCategory", insertCategory);
 
 app.listen(PORT, () => {
