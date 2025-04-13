@@ -8,6 +8,8 @@ const insertProduct = require("./Api/Admin/Products/insertProduct");
 const insertCategory = require("./Api/Admin/Categories/insertCategory");
 const fetchProductsByCategory = require("./Api/User/Products/fetchProductsByCategory");
 const fetchProductById = require("./Api/User/Products/fetchProductsById");
+const { AddProductInquiry } = require("./Api/User/Products/addProductInquiry");
+const { AddContactInquiry } = require("./Api/User/Products/addContactInquiry");
 
 require("dotenv").config();
 
@@ -55,6 +57,8 @@ app.get("/products/:product_id", fetchProductById);
 app.post("/insertCategories", insertCategories);
 app.post("/insertProduct", insertProduct);
 app.post("/insertCategory", insertCategory);
+app.post("/storeProductInquiry", AddProductInquiry);
+app.post("/storeContactInquiry", AddContactInquiry);
 
 app.listen(PORT, () => {
   console.log("Server Started At Port : ", PORT);
